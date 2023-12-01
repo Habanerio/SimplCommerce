@@ -163,3 +163,6 @@ PublishProfiles/
 logs/
 src/Modules/**/wwwroot/admin/*.min.js
 .vscode
+/src/SimplCommerce.WebHost/appsettings.Development.json
+/src/SimplCommerce.WebHost/wwwroot/libs.min.css
+/src/SimplCommerce.WebHost/wwwroot/themes/CozaStore/site.min.css
