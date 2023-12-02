@@ -41,7 +41,7 @@ Continuous deployment: https://ci.simplcommerce.com
 #### Prerequisite
 
 - PostgreSQL
-- [.NET Core SDK 6.0](https://www.microsoft.com/net/download/all)
+- [.NET Core SDK 8.0](https://www.microsoft.com/net/download/all)
 - Entity Framework Core (`dotnet tool install --global dotnet-ef`)
 
 #### Steps to run
@@ -53,9 +53,9 @@ Continuous deployment: https://ci.simplcommerce.com
 
 ## Technologies and frameworks used:
 
-- ASP.NET MVC Core 6.0
-- Entity Framework Core 6.0
-- ASP.NET Identity Core 6.0
+- ASP.NET MVC Core 8.0
+- Entity Framework Core 8.0
+- ASP.NET Identity Core 8.0
 - Angular 1.6.3
 - MediatR 7.0.0 for domain event
 

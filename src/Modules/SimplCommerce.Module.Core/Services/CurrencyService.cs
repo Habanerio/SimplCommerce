@@ -1,25 +1,30 @@
 ﻿using System.Globalization;
+
+using Ardalis.GuardClauses;
+
 using Microsoft.Extensions.Configuration;
 
-namespace SimplCommerce.Module.Core.Services
+namespace SimplCommerce.Module.Core.Services;
+
+public class CurrencyService : ICurrencyService
 {
-    public class CurrencyService : ICurrencyService
+    private readonly IConfiguration _config;
+
+    public CurrencyService(IConfiguration config)
     {
-        private readonly IConfiguration _config;
+        Guard.Against.Null(config);
 
-        public CurrencyService(IConfiguration config)
-        {
-            _config = config;
-            var currencyCulture = _config.GetValue<string>("Global.CurrencyCulture");
-            CurrencyCulture = new CultureInfo(currencyCulture);
-        }
+        _config = config;
 
-        public CultureInfo CurrencyCulture { get; }
+        var currencyCulture = _config.GetValue<string>("Global.CurrencyCulture");
+        CurrencyCulture = new CultureInfo(currencyCulture);
+    }
 
-        public string FormatCurrency(decimal value)
-        {
-            var decimalPlace = _config.GetValue<int>("Global.CurrencyDecimalPlace");
-            return value.ToString($"C{decimalPlace}", CurrencyCulture);
-        }
+    public CultureInfo CurrencyCulture { get; }
+
+    public string FormatCurrency(decimal value)
+    {
+        var decimalPlace = _config.GetValue<int>("Global.CurrencyDecimalPlace");
+        return value.ToString($"C{decimalPlace}", CurrencyCulture);
     }
 }

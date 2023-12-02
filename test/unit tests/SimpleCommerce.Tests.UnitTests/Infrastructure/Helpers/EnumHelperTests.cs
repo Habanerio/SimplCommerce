@@ -4,14 +4,14 @@ using AutoFixture.AutoMoq;
 using SimplCommerce.Infrastructure.Helpers;
 using SimplCommerce.Module.Orders.Models;
 
-namespace UnitTests.SimplCommerce.Infrastructure.Helpers;
+namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Helpers;
 
-public static class EnumHelperTests
+public class EnumHelperTests
 {
-    private static IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
+    private readonly IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
 
     [Fact]
-    public static void CanCall_ToDictionary()
+    public void CanCall_ToDictionary()
     {
         // Arrange
         var type = typeof(OrderStatus);
@@ -29,7 +29,7 @@ public static class EnumHelperTests
     }
 
     [Fact]
-    public static void CannotCall_ToDictionary_WithNull_Type()
+    public void CannotCall_ToDictionary_WithNull_Type()
     {
         Assert.Throws<ArgumentNullException>(() => EnumHelper.ToDictionary(default));
     }
@@ -38,7 +38,7 @@ public static class EnumHelperTests
     [InlineData(OrderStatus.OnHold, "OnHold")]
     [InlineData(OrderStatus.PendingPayment, "PendingPayment")]
     [InlineData(OrderStatus.Shipping, "Shipping")]
-    public static void CanCall_GetDisplayName(OrderStatus value, string expected)
+    public void CanCall_GetDisplayName(OrderStatus value, string expected)
     {
         // Act
         var actual = value.GetDisplayName();
@@ -48,7 +48,7 @@ public static class EnumHelperTests
     }
 
     [Fact]
-    public static void CannotCall_GetDisplayName_WithNull_Value()
+    public void CannotCall_GetDisplayName_WithNull_Value()
     {
         Assert.Throws<ArgumentNullException>(() => default(Enum).GetDisplayName());
     }
