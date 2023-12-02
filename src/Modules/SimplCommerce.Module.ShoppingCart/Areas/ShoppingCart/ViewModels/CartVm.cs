@@ -1,60 +1,60 @@
 ﻿using SimplCommerce.Module.Core.Services;
+
 using System.Collections.Generic;
 
-namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels
+namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
+
+public class CartVm
 {
-    public class CartVm
+    private readonly ICurrencyService _currencyService;
+
+    public CartVm(ICurrencyService currencyService)
     {
-        private readonly ICurrencyService _currencyService;
+        _currencyService = currencyService;
+    }
 
-        public CartVm(ICurrencyService currencyService)
+    public string CouponCode { get; set; }
+
+    public decimal SubTotal { get; set; }
+
+    public string SubTotalString { get { return _currencyService.FormatCurrency(SubTotal); } }
+
+    public decimal Discount { get; set; }
+
+    public string DiscountString { get { return _currencyService.FormatCurrency(Discount); } }
+
+    public string CouponValidationErrorMessage { get; set; }
+
+    public decimal SubTotalWithDiscount
+    {
+        get
         {
-            _currencyService = currencyService;
+            return SubTotal - Discount;
         }
+    }
 
-        public string CouponCode { get; set; }
+    public string SubTotalWithDiscountString { get { return _currencyService.FormatCurrency(SubTotalWithDiscount); } }
 
-        public decimal SubTotal { get; set; }
+    public IList<CartItemVm> Items { get; set; } = new List<CartItemVm>();
 
-        public string SubTotalString { get { return _currencyService.FormatCurrency(SubTotal); } }
-
-        public decimal Discount { get; set; }
-
-        public string DiscountString { get { return _currencyService.FormatCurrency(Discount); } }
-
-        public string CouponValidationErrorMessage { get; set; }
-
-        public decimal SubTotalWithDiscount
+    public bool IsValid
+    {
+        get
         {
-            get
+            foreach (var item in Items)
             {
-                return SubTotal - Discount;
-            }
-        }
-
-        public string SubTotalWithDiscountString { get { return _currencyService.FormatCurrency(SubTotalWithDiscount); } }
-
-        public IList<CartItemVm> Items { get; set; } = new List<CartItemVm>();
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach(var item in Items)
+                if (!item.IsProductAvailabeToOrder)
                 {
-                    if (!item.IsProductAvailabeToOrder)
-                    {
-                        return false;
-                    }
-
-                    if(item.ProductStockTrackingIsEnabled && item.ProductStockQuantity < item.Quantity)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
-                return true;
+                if (item.ProductStockTrackingIsEnabled && item.ProductStockQuantity < item.Quantity)
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
     }
 }

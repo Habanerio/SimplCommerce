@@ -7,19 +7,18 @@ using SimplCommerce.Module.Core.Events;
 using SimplCommerce.Module.ShoppingCart.Services;
 using SimplCommerce.Module.ShoppingCart.Events;
 
-namespace SimplCommerce.Module.ShoppingCart
+namespace SimplCommerce.Module.ShoppingCart;
+
+public class ModuleInitializer : IModuleInitializer
 {
-    public class ModuleInitializer : IModuleInitializer
+    public void ConfigureServices(IServiceCollection services)
     {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddTransient<ICartService, CartService>();
-            services.AddTransient<INotificationHandler<UserSignedIn>, UserSignedInHandler>();
-        }
+        services.AddTransient<ICartService, CartService>();
+        services.AddTransient<INotificationHandler<UserSignedIn>, UserSignedInHandler>();
+    }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
 
-        }
     }
 }

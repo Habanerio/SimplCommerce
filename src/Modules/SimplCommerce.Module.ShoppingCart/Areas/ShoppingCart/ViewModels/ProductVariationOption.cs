@@ -1,9 +1,8 @@
-﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels
-{
-    public class ProductVariationOption
-    {
-        public string OptionName { get; set; }
+﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
 
-        public string Value { get; set; }
-    }
+public class ProductVariationOption
+{
+    public string OptionName { get; set; }
+
+    public string Value { get; set; }
 }

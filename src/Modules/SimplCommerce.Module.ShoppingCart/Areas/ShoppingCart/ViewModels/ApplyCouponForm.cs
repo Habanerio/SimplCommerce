@@ -1,7 +1,6 @@
-﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels
+﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
+
+public class ApplyCouponForm
 {
-    public class ApplyCouponForm
-    {
-        public string CouponCode { get; set; }
-    }
+    public string CouponCode { get; set; }
 }

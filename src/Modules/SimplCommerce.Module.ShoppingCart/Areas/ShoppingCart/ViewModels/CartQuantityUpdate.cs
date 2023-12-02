@@ -1,9 +1,8 @@
-﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels
-{
-    public class CartQuantityUpdate
-    {
-        public long CartItemId { get; set; }
+﻿namespace SimplCommerce.Module.ShoppingCart.Areas.ShoppingCart.ViewModels;
 
-        public int Quantity { get; set; }
-    }
+public class CartQuantityUpdate
+{
+    public long CartItemId { get; set; }
+
+    public int Quantity { get; set; }
 }
