@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using SimplCommerce.Infrastructure.Extensions;
+
 using Xunit;
 
 namespace SimplCommerce.Infrastructure.Tests

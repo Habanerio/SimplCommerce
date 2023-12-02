@@ -3,11 +3,11 @@ using AutoFixture.AutoMoq;
 
 using SimplCommerce.Infrastructure.Helpers;
 
-namespace UnitTests.SimplCommerce.Infrastructure.Helpers;
+namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Helpers;
 
-public static class StringHelperTests
+public class StringHelperTests
 {
-    private static IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
+    private readonly IFixture _fixture = new Fixture().Customize(new AutoMoqCustomization());
 
     [Theory]
     [InlineData("friendly url", "friendly-url")]
@@ -19,7 +19,7 @@ public static class StringHelperTests
     [InlineData("friendly---url", "friendly-url")]
     [InlineData("friendly---123---url", "friendly-123-url")]
     [InlineData("ıłŁđß øÞx", "illdss-othx")]
-    public static void CanCall_ToUrlFriendly(string value, string expected)
+    public void CanCall_ToUrlFriendly(string value, string expected)
     {
         // Act
         var actual = value.ToUrlFriendly();
@@ -32,7 +32,7 @@ public static class StringHelperTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public static void CannotCall_ToUrlFriendly_WithInvalid_Name(string value)
+    public void CannotCall_ToUrlFriendly_WithInvalid_Name(string value)
     {
         var actual = value.ToUrlFriendly();
 
@@ -43,7 +43,7 @@ public static class StringHelperTests
     [Theory]
     [InlineData("diakritikós", "diakritikos")]
     [InlineData("áéíóúýčďěňřšťžů", "aeiouycdenrstzu")]
-    public static void CanCall_RemoveDiacritics(string value, string expected)
+    public void CanCall_RemoveDiacritics(string value, string expected)
     {
         // Act
         var actual = StringHelper.RemoveDiacritics(value);
@@ -56,7 +56,7 @@ public static class StringHelperTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public static void CannotCall_RemoveDiacritics_WithInvalid_Text(string value)
+    public void CannotCall_RemoveDiacritics_WithInvalid_Text(string value)
     {
         var actual = StringHelper.RemoveDiacritics(value);
 
@@ -66,7 +66,7 @@ public static class StringHelperTests
     [Theory]
     [InlineData("friendly@url", "friendlyurl")]
     [InlineData("friendly! url!", "friendlyurl")]
-    public static void CanCall_Strip_With_SubjectAndPredicate(string value, string expected)
+    public void CanCall_Strip_With_SubjectAndPredicate(string value, string expected)
     {
         // Act
         var actual = value.Strip(c =>
@@ -81,7 +81,7 @@ public static class StringHelperTests
     }
 
     [Fact]
-    public static void CannotCall_Strip_With_SubjectAndPredicate_WithNull_Predicate()
+    public void CannotCall_Strip_With_SubjectAndPredicate_WithNull_Predicate()
     {
         Assert.Throws<ArgumentNullException>(() => _fixture.Create<string>().Strip(default(Func<char, bool>)));
     }
@@ -90,7 +90,7 @@ public static class StringHelperTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public static void CanCall_Strip_With_SubjectAndPredicate_WithInvalid_Subject(string value)
+    public void CanCall_Strip_With_SubjectAndPredicate_WithInvalid_Subject(string value)
     {
         var actual = value.Strip(x => _fixture.Create<bool>());
 

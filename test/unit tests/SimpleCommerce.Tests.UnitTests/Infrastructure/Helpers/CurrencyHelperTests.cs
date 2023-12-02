@@ -2,7 +2,7 @@
 
 using SimplCommerce.Infrastructure.Helpers;
 
-namespace UnitTests.SimplCommerce.Infrastructure.Helpers;
+namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Helpers;
 
 public static class CurrencyHelperTests
 {
