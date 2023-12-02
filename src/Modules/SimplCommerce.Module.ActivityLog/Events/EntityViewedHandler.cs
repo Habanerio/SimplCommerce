@@ -1,39 +1,40 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR;
+
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.ActivityLog.Models;
 using SimplCommerce.Module.Core.Events;
 using SimplCommerce.Module.Core.Extensions;
 
-namespace SimplCommerce.Module.ActivityLog.Events
+namespace SimplCommerce.Module.ActivityLog.Events;
+
+public class EntityViewedHandler : INotificationHandler<EntityViewed>
 {
-    public class EntityViewedHandler : INotificationHandler<EntityViewed>
+    private readonly IRepository<Activity> _activityRepository;
+    private readonly IWorkContext _workContext;
+    private const long EntityViewedActivityTypeId = 1;
+
+    public EntityViewedHandler(IRepository<Activity> activityRepository, IWorkContext workContext)
     {
-        private readonly IRepository<Activity> _activityRepository;
-        private readonly IWorkContext _workContext;
-        private const long EntityViewedActivityTypeId = 1;
+        _activityRepository = activityRepository;
+        _workContext = workContext;
+    }
 
-        public EntityViewedHandler(IRepository<Activity> activityRepository, IWorkContext workcontext)
+    public async Task Handle(EntityViewed notification, CancellationToken cancellationToken)
+    {
+        var user = await _workContext.GetCurrentUser();
+        var activity = new Activity
         {
-            _activityRepository = activityRepository;
-            _workContext = workcontext;
-        }
+            ActivityTypeId = EntityViewedActivityTypeId,
+            EntityId = notification.EntityId,
+            EntityTypeId = notification.EntityTypeId,
+            UserId = user.Id,
+            CreatedOn = DateTimeOffset.Now
+        };
 
-        public async Task Handle(EntityViewed notification, CancellationToken cancellationToken)
-        {
-            var user = await _workContext.GetCurrentUser();
-            var activity = new Activity
-            {
-                ActivityTypeId = EntityViewedActivityTypeId,
-                EntityId = notification.EntityId,
-                EntityTypeId = notification.EntityTypeId,
-                UserId = user.Id,
-                CreatedOn = DateTimeOffset.Now
-            };
-
-            _activityRepository.Add(activity);
-        }
+        _activityRepository.Add(activity);
     }
 }
