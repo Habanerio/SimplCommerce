@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Microsoft.OpenApi.Models;
+
 using SimplCommerce.Infrastructure;
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Infrastructure.Modules;
@@ -28,7 +31,7 @@ var app = builder.Build();
 Configure();
 app.Run();
 
-void ConfigureService() 
+void ConfigureService()
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Configuration.AddEntityFrameworkConfig(options =>
@@ -83,7 +86,7 @@ void ConfigureService()
 }
 
 void Configure()
-    { 
+{
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
@@ -131,3 +134,8 @@ void Configure()
         moduleInitializer.Configure(app, builder.Environment);
     }
 }
+
+/// <summary>
+/// This is needed to be able to run the Functional tests (by default Program is inaccessible)
+/// </summary>
+public partial class Program;

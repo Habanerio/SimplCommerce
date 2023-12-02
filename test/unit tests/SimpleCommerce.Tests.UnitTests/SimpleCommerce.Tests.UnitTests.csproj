@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.Orders\SimplCommerce.Module.Orders.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.StorageLocal\SimplCommerce.Module.StorageLocal.csproj" />
     <ProjectReference Include="..\..\..\src\Modules\SimplCommerce.Module.Tax\SimplCommerce.Module.Tax.csproj" />
     <ProjectReference Include="..\..\..\src\SimplCommerce.Infrastructure\SimplCommerce.Infrastructure.csproj" />
   </ItemGroup>

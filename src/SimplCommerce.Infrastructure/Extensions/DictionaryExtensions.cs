@@ -16,6 +16,7 @@ namespace SimplCommerce.Infrastructure.Extensions
         /// <param name="key">Key</param>
         /// <param name="value">Value of the key (or default value if key not exists)</param>
         /// <returns>True if key does exists in the dictionary</returns>
+        [Obsolete("No references found for this. The GetOrDefault() below actually uses System.Collections.Generic.TryGetValue()")]
         internal static bool TryGetValue<T>(this IDictionary<string, object> dictionary, string key, out T value)
         {
             if (dictionary.TryGetValue(key, out var valueObj) && valueObj is T variable)
@@ -40,6 +41,7 @@ namespace SimplCommerce.Infrastructure.Extensions
         {
             if (dictionary != null)
                 return dictionary.TryGetValue(key, out var obj) ? obj : default;
+
             return default;
         }
 
@@ -52,6 +54,7 @@ namespace SimplCommerce.Infrastructure.Extensions
         /// <typeparam name="TKey">Type of the key</typeparam>
         /// <typeparam name="TValue">Type of the value</typeparam>
         /// <returns>Value if found, default if can not found.</returns>
+        [Obsolete("No references found for this")]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> factory)
         {
             if (dictionary.TryGetValue(key, out var obj))
@@ -71,6 +74,7 @@ namespace SimplCommerce.Infrastructure.Extensions
         /// <typeparam name="TKey">Type of the key</typeparam>
         /// <typeparam name="TValue">Type of the value</typeparam>
         /// <returns>Value if found, default if can not found.</returns>
+        [Obsolete("No references found for this")]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> factory)
         {
             return dictionary.GetOrAdd(key, k => factory());

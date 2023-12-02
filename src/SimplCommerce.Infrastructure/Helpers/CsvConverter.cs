@@ -74,40 +74,43 @@ public static class CsvConverter
                 var vals = obj.GetType().GetProperties().Select(pi => new
                 {
                     Value = pi.GetValue(obj, null)
-                });
+                }).ToArray();
 
                 var line = string.Empty;
-                foreach (var val in vals)
+                for (var i = 0; i < vals.Length; i++)
                 {
-                    if (val.Value != null)
+                    var val = vals[i];
+
+                    var escapeVal = val.Value?.ToString() ?? string.Empty;
+
+                    // Check if the value contains a comma and place it in quotes if so
+                    if (escapeVal.Contains(",", StringComparison.OrdinalIgnoreCase))
                     {
-                        var escapeVal = val.Value.ToString();
-                        // Check if the value contains a comma and place it in quotes if so
-                        if (escapeVal.Contains(",", StringComparison.OrdinalIgnoreCase))
-                        {
-                            escapeVal = string.Concat("\"", escapeVal, "\"");
-                        }
+                        escapeVal = string.Concat('\"', escapeVal, "\"");
+                    }
 
-                        // Replace any \r or \n special characters from a new line with a space
-                        if (escapeVal.Contains("\r", StringComparison.OrdinalIgnoreCase))
-                        {
-                            escapeVal = escapeVal.Replace("\r", " ", StringComparison.OrdinalIgnoreCase);
-                        }
+                    // Replace any \r or \n special characters from a new line with a space
+                    if (escapeVal.Contains('\r', StringComparison.OrdinalIgnoreCase))
+                    {
+                        escapeVal = escapeVal.Replace("\r", " ", StringComparison.OrdinalIgnoreCase);
+                    }
 
-                        if (escapeVal.Contains("\n", StringComparison.OrdinalIgnoreCase))
-                        {
-                            escapeVal = escapeVal.Replace("\n", " ", StringComparison.OrdinalIgnoreCase);
-                        }
+                    if (escapeVal.Contains('\n', StringComparison.OrdinalIgnoreCase))
+                    {
+                        escapeVal = escapeVal.Replace("\n", " ", StringComparison.OrdinalIgnoreCase);
+                    }
 
+                    if (i < vals.Length - 1)
+                    {
                         line = string.Concat(line, escapeVal, csvDelimiter);
                     }
                     else
                     {
-                        line = string.Concat(line, string.Empty, csvDelimiter);
+                        line = string.Concat(line, escapeVal);
                     }
                 }
 
-                stringWriter.WriteLine(line.TrimEnd(csvDelimiter.ToCharArray()));
+                stringWriter.WriteLine(line);
             }
 
             return stringWriter.ToString();
