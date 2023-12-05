@@ -168,3 +168,4 @@ src/Modules/**/wwwroot/admin/*.min.js
 /src/SimplCommerce.WebHost/wwwroot/themes/CozaStore/site.min.css
 /test/IntegrationTests/appsettings.Development.json
 /test/IntegrationTests/appsettings.docker.json
+/test/functional tests/SimpleCommerce.Tests.FunctionalTests/appsettings.Development.json

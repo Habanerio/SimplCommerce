@@ -8,16 +8,14 @@ using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.StorageLocal;
 
-using Xunit;
-
-namespace SimpleCommerce.Tests.UnitTests.Modules.Core.Services;
+namespace SimplCommerce.Tests.UnitTests.Modules.Core.Services;
 
 public class MediaServiceTests
 {
     private MediaService _testClass;
-    private IFixture _fixture;
-    private Mock<IRepository<Media>> _mediaRepository;
-    private Mock<IStorageService> _storageService;
+    private readonly IFixture _fixture;
+    private readonly Mock<IRepository<Media>> _mediaRepository;
+    private readonly Mock<IStorageService> _storageService;
 
     public MediaServiceTests()
     {

@@ -1,7 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
@@ -14,8 +17,8 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
     [ApiExplorerSettings(IgnoreApi = true)]
     public class BrandController : Controller
     {
-        private int _pageSize;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly int _pageSize;
+
         private readonly IMediaService _mediaService;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Brand> _brandRepository;
@@ -24,7 +27,6 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 
         public BrandController(IRepository<Product> productRepository,
             IMediaService mediaService,
-            IRepository<Category> categoryRepository,
             IRepository<Brand> brandRepository,
             IProductPricingService productPricingService,
             IConfiguration config,
@@ -32,7 +34,6 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
         {
             _productRepository = productRepository;
             _mediaService = mediaService;
-            _categoryRepository = categoryRepository;
             _brandRepository = brandRepository;
             _productPricingService = productPricingService;
             _contentLocalizationService = contentLocalizationService;
@@ -44,7 +45,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             var brand = _brandRepository.Query().FirstOrDefault(x => x.Id == id);
             if (brand == null)
             {
-                return Redirect("~/Error/FindNotFound");
+                return NotFound();
             }
 
             var model = new ProductsByBrand
@@ -58,7 +59,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 
             var query = _productRepository.Query().Where(x => x.BrandId == id && x.IsPublished && x.IsVisibleIndividually);
 
-            if (query.Count() == 0)
+            if (!query.Any())
             {
                 model.TotalProduct = 0;
                 return View(model);
@@ -83,6 +84,12 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             }
 
             model.TotalProduct = query.Count();
+
+            // Do you really want to return results if the page no is beyond the last page?
+            // This would not be good for SEO, as you will have duplicate content.
+            // Return NotFound, or temp redirect  to the last page.
+            // And make sure the canonical url is set to the last page.
+
             var currentPageNum = searchOption.Page <= 0 ? 1 : searchOption.Page;
             var offset = (_pageSize * currentPageNum) - _pageSize;
             while (currentPageNum > 1 && offset >= model.TotalProduct)
@@ -90,6 +97,10 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 currentPageNum--;
                 offset = (_pageSize * currentPageNum) - _pageSize;
             }
+
+            //var totalPages = (int)Math.Ceiling(1d * model.TotalProduct / _pageSize);
+            //var pageNo = Math.Min(currentPageNum, Math.Max(totalPages, 1));
+            //var skip = (pageNo - 1) * _pageSize;
 
             query = ApplySort(searchOption, query);
 
@@ -139,7 +150,8 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 
             model.FilterOption.Categories = query
                 .SelectMany(x => x.Categories).Where(x => x.Category.IsPublished)
-                .GroupBy(x => new {
+                .GroupBy(x => new
+                {
                     x.Category.Id,
                     x.Category.Name,
                     x.Category.Slug,
@@ -155,7 +167,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 })
                 .ToList();
 
-            foreach(var item in model.FilterOption.Categories)
+            foreach (var item in model.FilterOption.Categories)
             {
                 item.Name = getCategoryName(item.Id, nameof(item.Name), item.Name);
             }

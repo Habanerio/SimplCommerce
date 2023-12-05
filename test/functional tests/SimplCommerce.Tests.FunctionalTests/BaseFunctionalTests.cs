@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 
-namespace SimpleCommerce.Tests.FunctionalTests;
+namespace SimplCommerce.Tests.FunctionalTests;
 
 public class BaseFunctionalTests
 {

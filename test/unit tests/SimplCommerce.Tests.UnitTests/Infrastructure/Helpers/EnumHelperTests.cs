@@ -4,7 +4,7 @@ using AutoFixture.AutoMoq;
 using SimplCommerce.Infrastructure.Helpers;
 using SimplCommerce.Module.Orders.Models;
 
-namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Helpers;
+namespace SimplCommerce.Tests.UnitTests.Infrastructure.Helpers;
 
 public class EnumHelperTests
 {

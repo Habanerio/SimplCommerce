@@ -1,7 +1,7 @@
 ﻿using SimplCommerce.Infrastructure.Extensions;
 using SimplCommerce.Module.Tax.Models;
 
-namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Extensions;
+namespace SimplCommerce.Tests.UnitTests.Infrastructure.Extensions;
 
 public class DictionaryExtensionsTests
 {

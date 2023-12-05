@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using Newtonsoft.Json;
+
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
@@ -149,7 +153,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
 
         private void MapProductVariantToProductVm(Product product, ProductDetail model)
         {
-            if(!product.ProductLinks.Any(x => x.LinkType == ProductLinkType.Super))
+            if (product.ProductLinks.All(x => x.LinkType != ProductLinkType.Super))
             {
                 return;
             }

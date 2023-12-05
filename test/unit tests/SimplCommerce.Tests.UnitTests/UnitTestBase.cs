@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace SimpleCommerce.Tests.UnitTests;
+namespace SimplCommerce.Tests.UnitTests;
 
 public abstract class UnitTestBase
 {

@@ -1,12 +1,15 @@
 ﻿@using System.Globalization
+@{
+    var title = !string.IsNullOrWhiteSpace(ViewData["Title"]?.ToString()) ? $"{ViewData["Title"]} - SimplCommerce" : "SimplCommerce";
+}
 
 <!doctype html>
 <html lang="@CultureInfo.CurrentUICulture.Name.ToLowerInvariant()">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>@ViewData["Title"] - SimplCommerce</title>
-    @RenderSection("additionalMeta", false)
+    <title>@title</title>
+    @await RenderSectionAsync("additionalMeta", false)
 
     <link simpl-append-version="true" rel="stylesheet" type="text/css" href="~/themes/CozaStore/site.min.css" />
     <script simpl-append-version="true" src="~/lib/angular/angular.min.js"></script>
@@ -14,7 +17,7 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
 
-    @RenderSection("head", required: false)
+    @await RenderSectionAsync("head", required: false)
 </head>
 <body>
     <!-- Header -->
@@ -249,7 +252,7 @@
     <script simpl-append-version="true" src="~/lib/matchheight/jquery.matchHeight.js"></script>
     <script simpl-append-version="true" src="~/lib/toastr/build/toastr.min.js"></script>
     <script simpl-append-version="true" src="~/lib/bootstrap-star-rating/js/star-rating.js"></script>
-    @if(CultureInfo.CurrentCulture.Name != SimplCommerce.Infrastructure.GlobalConfiguration.DefaultCulture)
+    @if (CultureInfo.CurrentCulture.Name != SimplCommerce.Infrastructure.GlobalConfiguration.DefaultCulture)
     {
         <script simpl-append-version="true" src="~/lib/bootstrap-star-rating/js/locales/@(CultureInfo.CurrentCulture.Name).js"></script>
     }
@@ -260,7 +263,7 @@
     <script simpl-append-version="true" src="~/_content/SimplCommerce.Module.Core/main.js"></script>
     <script simpl-append-version="true" src="~/_content/SimplCommerce.Module.ShoppingCart/add-to-cart.js"></script>
     <script simpl-append-version="true" src="~/_content/SimplCommerce.Module.ProductComparison/product-comparison.js"></script>
-    @RenderSection("scripts", required: false)
+    @await RenderSectionAsync("scripts", required: false)
 
     <partial name="_AnalyticsScript" />
 </body>
