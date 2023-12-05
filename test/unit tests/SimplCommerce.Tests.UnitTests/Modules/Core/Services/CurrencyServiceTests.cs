@@ -1,13 +1,10 @@
 ﻿using System.Globalization;
-using System.Runtime.InteropServices;
-
-using AutoFixture;
 
 using Microsoft.Extensions.Configuration;
 
 using SimplCommerce.Module.Core.Services;
 
-namespace SimpleCommerce.Tests.UnitTests.Modules.Core.Services;
+namespace SimplCommerce.Tests.UnitTests.Modules.Core.Services;
 
 public class CurrencyServiceTests : UnitTestBase
 {

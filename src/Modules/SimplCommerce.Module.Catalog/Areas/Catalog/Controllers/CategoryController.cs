@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels;
 using SimplCommerce.Module.Catalog.Models;
@@ -45,7 +47,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
             var category = _categoryRepository.Query().FirstOrDefault(x => x.Id == id);
             if (category == null)
             {
-                return Redirect("~/Error/FindNotFound");
+                return NotFound();
             }
 
             var model = new ProductsByCategory
@@ -65,7 +67,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                 .Query()
                 .Where(x => x.Categories.Any(c => c.CategoryId == category.Id) && x.IsPublished && x.IsVisibleIndividually);
 
-            if (query.Count() == 0)
+            if (!query.Any())
             {
                 model.TotalProduct = 0;
                 return View(model);
@@ -168,7 +170,7 @@ namespace SimplCommerce.Module.Catalog.Areas.Catalog.Controllers
                     Count = g.Count()
                 }).ToList();
 
-            foreach(var item in model.FilterOption.Categories)
+            foreach (var item in model.FilterOption.Categories)
             {
                 item.Name = getCategoryName(item.Id, nameof(item.Name), item.Name);
             }
