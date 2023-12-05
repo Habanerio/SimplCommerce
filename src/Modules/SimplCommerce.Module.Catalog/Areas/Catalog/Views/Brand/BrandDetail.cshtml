@@ -1,6 +1,9 @@
 ﻿@model SimplCommerce.Module.Catalog.Areas.Catalog.ViewModels.ProductsByBrand
 @{
     ViewBag.Title = Model.BrandName;
+    ViewBag.Page = Model.CurrentSearchOption.Page;
+    ViewBag.PageSize = Model.CurrentSearchOption.PageSize;
+    ViewBag.TotalResults = Model.TotalProduct;
 }
 
 @section head {

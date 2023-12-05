@@ -3,7 +3,7 @@ using AutoFixture.AutoMoq;
 
 using SimplCommerce.Infrastructure.Helpers;
 
-namespace SimpleCommerce.Tests.UnitTests.Infrastructure.Helpers;
+namespace SimplCommerce.Tests.UnitTests.Infrastructure.Helpers;
 
 internal class CsvMockClass
 {
