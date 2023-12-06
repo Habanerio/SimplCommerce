@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
 using SimplCommerce.Infrastructure.Data;
 using SimplCommerce.Module.Core.Services;
 using SimplCommerce.Module.News.Areas.News.ViewModels;
@@ -12,7 +14,7 @@ namespace SimplCommerce.Module.News.Areas.News.Controllers
     [Area("News")]
     public class NewsCategoryController : Controller
     {
-        private int _pageSize;
+        private readonly int _pageSize;
         private readonly IRepository<NewsItem> _newsItemRepository;
         private readonly IMediaService _mediaService;
         private readonly IRepository<NewsCategory> _newsCategoryRepository;
@@ -40,12 +42,12 @@ namespace SimplCommerce.Module.News.Areas.News.Controllers
                 })
                 .ToList();
 
-            if (newsCategoryList == null)
+            if (!newsCategoryList.Any())
             {
                 return Redirect("~/Error/FindNotFound");
             }
 
-            var currentNewsCategory = newsCategoryList.Select(x => new NewsCategoryVm()
+            var currentNewsCategory = newsCategoryList.Select(x => new NewsCategoryVm
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -53,7 +55,7 @@ namespace SimplCommerce.Module.News.Areas.News.Controllers
             })
             .FirstOrDefault(x => x.Id == id);
 
-            var model = new NewsVm()
+            var model = new NewsVm
             {
                 CurrentNewsCategory = currentNewsCategory,
                 NewsCategory = newsCategoryList
@@ -72,7 +74,7 @@ namespace SimplCommerce.Module.News.Areas.News.Controllers
                 offset = (_pageSize * currentPageNum) - _pageSize;
             }
 
-            model.NewsItem = query.Include(x => x.ThumbnailImage).Select( x => new NewsItemThumbnail()
+            model.NewsItem = query.Include(x => x.ThumbnailImage).Select(x => new NewsItemThumbnail
             {
                 Id = x.Id,
                 ShortContent = x.ShortContent,
